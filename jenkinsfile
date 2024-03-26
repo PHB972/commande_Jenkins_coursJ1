@@ -1,0 +1,22 @@
+pipeline{
+    agent { label 'agent-node' }
+    stages{
+        stage('Checkout'){
+            steps{
+                git branch: 'main', url: 'https://github.com/fredericEducentre/jenkins_test_node.git'
+            }
+        }
+        stage('Build'){
+            steps{
+                sh '''npm install
+                npx tsc index.ts --outDir dist
+                '''
+            }
+        }
+        stage('Test'){
+            steps{
+                sh 'npm test'
+            }
+        }
+    }
+}
